@@ -1,2 +1,7 @@
+#过滤文件和文件夹
 .idea/
 *.iml
+architecture-common/target/
+architecture-goods/target/
+architecture-web/target/
+architecture-customer/target/
