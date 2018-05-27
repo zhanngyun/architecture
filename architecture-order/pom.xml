@@ -9,12 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>architecture-goods</artifactId>
+    <artifactId>architecture-order</artifactId>
     <packaging>war</packaging>
 
-    <name>architecture-goods</name>
-    <!-- FIXME change it to the project's website -->
-   <!-- <url>http://www.example.com</url>-->
+    <name>architecture-order Maven Webapp</name>
 
     <dependencies>
         <dependency>
@@ -25,7 +23,7 @@
     </dependencies>
 
     <build>
-        <finalName>architecture-goods</finalName>
+        <finalName>architecture-order</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>

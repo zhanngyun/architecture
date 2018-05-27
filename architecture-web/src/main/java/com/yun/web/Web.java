@@ -5,10 +5,10 @@ package com.yun.web;
  * @date 2018/5/26 21:18
  * @desc
  */
-public class Demo {
+public class Web {
     public static void main(String[] args) {
 
 
-        System.out.println("this is web demo");
+        System.out.println("this is web modular");
     }
 }
