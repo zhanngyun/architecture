@@ -1,5 +1,6 @@
 package com.yun.customer.dao;
 
+import com.yun.common.dao.BaseDAO;
 import com.yun.customer.vo.CustomerModel;
 import com.yun.customer.vo.CustomerQueryModel;
 import org.apache.ibatis.annotations.Param;
@@ -13,11 +14,6 @@ import java.util.List;
  * @desc
  */
 @Repository
-public interface CustomerDAO {
-    public void create(CustomerModel cm);
-    public void update(CustomerModel cm);
-    public void delete(@Param("uuid") int uuid);
+public interface CustomerDAO extends BaseDAO<CustomerModel,CustomerQueryModel>{
 
-    public CustomerModel getByUuid(@Param("uuid") int uuid);
-    public List<CustomerModel> getByCondition(CustomerQueryModel cqm);
 }

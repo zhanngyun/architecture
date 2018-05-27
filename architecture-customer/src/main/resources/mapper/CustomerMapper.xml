@@ -22,7 +22,7 @@
         SELECT * FROM t_customer_info WHERE uuid = #{uuid}
     </select>
     
-    <select id="getByCondition" parameterType="CM" resultType="CM">
+    <select id="getByConditionPage" parameterType="CM" resultType="CM">
         SELECT * FROM t_customer_info
         <where>
             <if test="uuid!=null &amp;&amp; uuid>0">
