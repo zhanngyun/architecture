@@ -5,3 +5,6 @@ architecture-common/target/
 architecture-goods/target/
 architecture-web/target/
 architecture-customer/target/
+architecture-cart/target/
+architecture-order/target/
+architecture-store/target/
