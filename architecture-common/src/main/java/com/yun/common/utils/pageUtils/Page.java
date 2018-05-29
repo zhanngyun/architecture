@@ -11,7 +11,6 @@ import java.util.List;
 public class Page<E> {
 
 
-
     private int pageShow = 2;
     private int totalPage;
     private int totalCount;
@@ -29,7 +28,7 @@ public class Page<E> {
     }
 
     public int getTotalPage() {
-        return (int)Math.ceil((totalCount*1.0)/pageShow);
+        return (int) Math.ceil((totalCount * 1.0) / pageShow);
     }
 
     public void setTotalPage(int totalPage) {
@@ -45,8 +44,8 @@ public class Page<E> {
     }
 
     public int getStart() {
-        start = (getNowPage()-1)*getPageShow();
-        if(start<0){
+        start = (getNowPage() - 1) * getPageShow();
+        if (start < 0) {
             start = 0;
         }
         return start;
@@ -62,10 +61,10 @@ public class Page<E> {
 
     public void setNowPage(int nowPage) {
 
-        if(nowPage<=0){
-            nowPage =1;
+        if (nowPage <= 0) {
+            nowPage = 1;
         }
-        if(nowPage<getTotalPage()){
+        if (nowPage > getTotalPage()) {
             nowPage = getTotalPage();
         }
         this.nowPage = nowPage;

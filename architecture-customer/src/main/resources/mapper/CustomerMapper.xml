@@ -28,10 +28,10 @@
             <if test="uuid!=null &amp;&amp; uuid>0">
                 AND uuid = #{uuid}
             </if>
-            <if test="customerId!=null && customerId != ''">
+            <if test="customerId!=null &amp;&amp; customerId != ''">
                 AND customerId = #{customerId}
             </if>
-            <if test="showName != null && showName != ''">
+            <if test="showName != null &amp;&amp; showName != ''">
                 AND showName LIKE "%"+#{showName}+"%"
             </if>
         </where>

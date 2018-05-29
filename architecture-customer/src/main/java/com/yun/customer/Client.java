@@ -1,3 +1,4 @@
+/*
 package com.yun.customer;
 
 import com.yun.common.utils.pageUtils.Page;
@@ -14,11 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+*/
 /**
  * @author yzhang
  * @date 2018/5/27 19:12
  * @desc
- */
+ *//*
+
 @Service
 @Transactional
 public class Client {
@@ -35,21 +38,27 @@ public class Client {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         Client client = (Client)context.getBean("client");
-       /* CustomerModel cm = new CustomerModel();
+       */
+/* CustomerModel cm = new CustomerModel();
         cm.setUuid(1);
         cm.setCustomerId("1");
         cm.setPwd("pwd12356");
         cm.setShowName("updateName");
         cm.setTrueName("zhangyun");
         cm.setRegisterTime(new SimpleDateFormat("yyyy/MM/dd").format(Calendar.getInstance().getTime()));
-        client.customerService.create(cm);*/
+        client.customerService.create(cm);*//*
 
-       /* CustomerModel byUuid = client.customerDAO.getByUuid(1);
-        System.out.println(byUuid);*/
+
+       */
+/* CustomerModel byUuid = client.customerDAO.getByUuid(1);
+        System.out.println(byUuid);*//*
+
 //        CustomerQueryModel queryModel = new CustomerQueryModel();
-        /*queryModel.setUuid(1);
+        */
+/*queryModel.setUuid(1);
         List<CustomerModel> byCondition = client.customerDAO.getByCondition(queryModel);
-        System.out.println(byCondition.get(0).toString());*/
+        System.out.println(byCondition.get(0).toString());*//*
+
 //        client.customerDAO.delete(1);
 
         CustomerQueryModel queryModel = new CustomerQueryModel();
@@ -62,3 +71,4 @@ public class Client {
     }
 
 }
+*/
