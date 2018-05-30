@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.format.DateTimeFormatter;
-
 /**
  * @author yzhang
  * @date 2018/5/28 21:50
@@ -27,66 +25,65 @@ public class CustomerController {
     private ICustomerService iCustomerService = null;
 
 
-    @RequestMapping(value = "/toAdd",method = RequestMethod.GET)
-    public String toAdd(){
+    @RequestMapping(value = "/toAdd", method = RequestMethod.GET)
+    public String toAdd() {
         return "customer/add";
     }
 
 
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String add(@ModelAttribute("customerModel") CustomerModel customerModel){
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String add(@ModelAttribute("customerModel") CustomerModel customerModel) {
         customerModel.setRegisterTime(DateFormatHelper.long2str(System.currentTimeMillis()));
         iCustomerService.create(customerModel);
         return "customer/success";
     }
 
-    @RequestMapping(value = "/toUpdate/{customerUuid}",method = RequestMethod.GET)
-    public String toUpdate(Model model,@PathVariable("customerUuid") int customerUuid){
+    @RequestMapping(value = "/toUpdate/{customerUuid}", method = RequestMethod.GET)
+    public String toUpdate(Model model, @PathVariable("customerUuid") int customerUuid) {
         CustomerModel customerModel = iCustomerService.getByUuid(customerUuid);
-        model.addAttribute("cm",customerModel);
+        model.addAttribute("cm", customerModel);
         return "customer/update";
     }
 
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public String update(@ModelAttribute("customerModel") CustomerModel customerModel){
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(@ModelAttribute("customerModel") CustomerModel customerModel) {
         iCustomerService.update(customerModel);
         return "customer/success";
     }
 
-    @RequestMapping(value = "/toDelete/{customerUuid}",method = RequestMethod.GET)
-    public String toDelete(Model model,@PathVariable("customerUuid") int customerUuid){
+    @RequestMapping(value = "/toDelete/{customerUuid}", method = RequestMethod.GET)
+    public String toDelete(Model model, @PathVariable("customerUuid") int customerUuid) {
         CustomerModel customerModel = iCustomerService.getByUuid(customerUuid);
-        model.addAttribute("cm",customerModel);
+        model.addAttribute("cm", customerModel);
         return "customer/delete";
     }
 
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public String delete(@RequestParam("uuid") int customerUuid){
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam("uuid") int customerUuid) {
         iCustomerService.delete(customerUuid);
         return "customer/success";
     }
 
 
-    @RequestMapping(value = "/toList",method = RequestMethod.GET)
-    public String toList(@RequestParam(value = "queryJsonStr",defaultValue = "") String queryJsonStr, @ModelAttribute("page") Page page,Model model){
+    @RequestMapping(value = "/toList", method = RequestMethod.GET)
+    public String toList(@ModelAttribute("queryJsonStr") String queryJsonStr,@ModelAttribute("page") Page page, Model model) {
         CustomerQueryModel cqm = null;
-        if(queryJsonStr == null || queryJsonStr.trim().length()==0){
+        if (queryJsonStr == null || queryJsonStr.trim().length() == 0) {
             cqm = new CustomerQueryModel();
-        }else {
-            cqm = JsonHelper.readValue(queryJsonStr,CustomerQueryModel.class);
+        } else {
+            cqm = JsonHelper.readValue(queryJsonStr, CustomerQueryModel.class);
         }
-        cqm.getPage().setPageShow(page.getPageShow());
-        cqm.getPage().setNowPage(page.getNowPage());
+        cqm.setPage(page);
 
         Page<CustomerModel> pageList = iCustomerService.getByConditionPage(cqm);
-        model.addAttribute("queryJsonStr",queryJsonStr);
-        model.addAttribute("page",pageList);
+        model.addAttribute("queryJsonStr", queryJsonStr);
+        model.addAttribute("page", pageList);
         return "customer/list";
     }
 
-    @RequestMapping(value = "/toQuery",method = RequestMethod.GET)
-    public String query(){
+    @RequestMapping(value = "/toQuery", method = RequestMethod.GET)
+    public String query() {
         return "customer/query";
     }
 

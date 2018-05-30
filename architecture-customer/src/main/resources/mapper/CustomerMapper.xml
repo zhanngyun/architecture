@@ -32,7 +32,10 @@
                 AND customerId = #{customerId}
             </if>
             <if test="showName != null &amp;&amp; showName != ''">
-                AND showName LIKE "%"+#{showName}+"%"
+                AND showName LIKE CONCAT('%',#{showName},'%')
+            </if>
+            <if test="trueName != null &amp;&amp; trueName != ''">
+                AND trueName LIKE CONCAT('%',#{trueName},'%')
             </if>
         </where>
     </select>

@@ -15,7 +15,7 @@ public class Page<E> {
     private int totalPage;
     private int totalCount;
     private int start;
-    private int nowPage;
+    private int nowPage=1;
     private List<E> result = Collections.emptyList();
 
 
