@@ -61,13 +61,11 @@ public class Page<E> {
 
     public void setNowPage(int nowPage) {
 
-        if (nowPage <= 0) {
-            nowPage = 1;
+        if(nowPage<=0){
+            this.nowPage = 1;
+        }else {
+            this.nowPage = nowPage;
         }
-        if (nowPage > getTotalPage()) {
-            nowPage = getTotalPage();
-        }
-        this.nowPage = nowPage;
     }
 
     public List<E> getResult() {
