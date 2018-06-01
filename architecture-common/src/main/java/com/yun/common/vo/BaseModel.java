@@ -2,6 +2,7 @@ package com.yun.common.vo;
 
 import com.yun.common.utils.pageUtils.Page;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -9,8 +10,9 @@ import java.util.Objects;
  * @date 2018/5/27 21:17
  * @desc
  */
-public class BaseModel {
+public class BaseModel implements Serializable{
 
+    private static final long serialVersionUID = 5536607069269692533L;
     private Page page = new Page();
 
 
