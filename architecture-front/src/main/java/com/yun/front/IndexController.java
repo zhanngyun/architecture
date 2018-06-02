@@ -73,7 +73,7 @@ public class IndexController {
 
     @RequestMapping(value="/addToCart/{goodsUuid}",method=RequestMethod.GET)
     public String addToCart(Model model,@PathVariable("goodsUuid")int goodsUuid,@CookieValue("MyLogin")String myLogin){
-        int customerUuid = Integer.parseInt( myLogin.split(",")[0]);
+        int customerUuid = Integer.parseInt( myLogin.split("&")[0]);
 
         CartModel cm = new CartModel();
         cm.setBuyNum(1);
@@ -95,7 +95,7 @@ public class IndexController {
     }
     @RequestMapping(value="/toCart",method=RequestMethod.GET)
     public String toCart(Model model,@CookieValue("MyLogin")String myLogin){
-        int customerUuid = Integer.parseInt( myLogin.split(",")[0]);
+        int customerUuid = Integer.parseInt( myLogin.split("&")[0]);
 
         CartQueryModel cqm = new CartQueryModel();
         cqm.getPage().setPageShow(1000);
@@ -110,7 +110,7 @@ public class IndexController {
     @RequestMapping(value="/order",method=RequestMethod.GET)
     public String order(@CookieValue("MyLogin") String myLogin){
         //1:查出这个人购物车所有的信息
-        int customerUuid = Integer.parseInt( myLogin.split(",")[0]);
+        int customerUuid = Integer.parseInt( myLogin.split("&")[0]);
         CartQueryModel cqm = new CartQueryModel();
         cqm.getPage().setPageShow(1000);
         cqm.setCustomerUuid(customerUuid);

@@ -42,7 +42,7 @@ public class LoginController {
             return "login";
         }
 
-        Cookie c = new Cookie("MyLogin", cm.getUuid() + "," + System.currentTimeMillis());
+        Cookie c = new Cookie("MyLogin", cm.getUuid() + "&" + System.currentTimeMillis());
         response.addCookie(c);
 
         return "redirect:/toIndex";

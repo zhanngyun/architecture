@@ -1,0 +1,66 @@
+Nginx学习
+一、Nginx的简介
+    是什么：Nginx是一款轻量级的Web服务器，也是一款轻量级的反向代理服务器（主要是使用这点）
+    能干什么：
+        直接支持Rails和PHP程序
+        作为http反向代理服务器
+        作为负载均衡服务器
+        作为邮件代理服务器
+        帮助前端实现动静分离
+    特点：
+        高稳定、高性能、资源占用少、功能丰富、模块化结构、支持热部署
+
+二、Nginx的安装和基本应用
+    上http://nginx.org去下载源码包
+    （1）解压源码包，然后到整个包里面去
+    （2）安装命令示例如下：
+        第一步：./configure --prefix=/usr/common/nginx --with-http_stub_status_module --with-http_ssl_module
+        如果在此命令下提示缺少啥就安装啥
+        比如缺少pcre
+        --with-pcre=/usr/common/temp/pcre-8.34
+        第二步:配置后依次make,make install
+    （3）基本操作
+        进入到安装目录下nginx/sbin目录里面
+            ./nginx -t 查看编译是否有问题
+            ./nginx 启动nginx
+            ./nginx -s reload nginx重启
+            ./nginx -s stop 或者是 ./nginx -s quit 退出nginx
+三、Nginx的基本配置
+    （1）配置文件
+       nginx.conf: 应用程序的基本配置文件
+       mine.types: mine类型关联的扩展文件
+       fastcgi.conf: 与fastcgi相关的配置
+       proxy.conf: 与proxy相关的配置
+       sites.conf: 配置Nginx提供的网站，包括虚拟机
+     （2）Nginx的进程结构
+        启动Nginx的时候，会启动一个Master进程，这个进程不处理任何客户端的请求，主要用来产生worker进程，一个worker进程用来处理一个request
+     （3）Nginx的基本模块
+        所谓的基本模块，指的是Nginx默认的功能模块，他们提供的指令，允许你使用定义Nginx基本功能的变量，在编译的时候不能被禁用，包括：
+            核心模块：基本功能和指令，如进程管理和安全
+            事件模块：在Nginx内配置网络使用的能力
+            配置模块：提供包含机制
+        常见的核心模块指令，大部分都是放置在配置文件的顶部，具体的指令，请看nginx的官方文档，非常详细，参见：
+        http://nginx.org/en/docs/ngx_core_module.html
+        或者是参见这个网站，都是中文的
+        http://shouce.jb51.net/nginx/index.html
+
+
+
+四、学习核心模块、日志模块和事件模块的常用命令
+
+
+
+五、学习Http模块的常用配置和指令
+
+
+六、学习反向代理、动静分离、负载均衡、Geo和GeoIP模块
+
+
+
+七、学习Rewrite模块和更多模块的功能
+
+
+八、学习更多常见功能片段的配置
+
+
+九、Nginx配置优化建议
