@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * @desc
  */
 public interface IBaseService<M, QM extends BaseModel> {
-    void create(M cm);
+    Integer create(M cm);
 
     void update(M cm);
 

@@ -16,4 +16,6 @@ import java.util.List;
 @Repository
 public interface CustomerDAO extends BaseDAO<CustomerModel,CustomerQueryModel>{
 
+    public CustomerModel getByCustomerId(@Param("customerId") String customerId);
+
 }

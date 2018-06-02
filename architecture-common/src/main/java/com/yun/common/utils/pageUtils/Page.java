@@ -1,5 +1,6 @@
 package com.yun.common.utils.pageUtils;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,9 +9,10 @@ import java.util.List;
  * @date 2018/5/27 19:40
  * @desc
  */
-public class Page<E> {
+public class Page<E> implements Serializable{
 
 
+    private static final long serialVersionUID = -4323769985949470143L;
     private int pageShow = 2;
     private int totalPage;
     private int totalCount;

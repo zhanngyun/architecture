@@ -25,4 +25,8 @@ public class CustomerServiceImpl extends BaseService<CustomerModel,CustomerQuery
         super.setDao(customerDAO);
     }
 
+    @Override
+    public CustomerModel getByCustomerId(String customerId) {
+        return customerDAO.getByCustomerId(customerId);
+    }
 }

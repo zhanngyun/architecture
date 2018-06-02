@@ -11,4 +11,6 @@ import com.yun.store.vo.StoreQueryModel;
  */
 public interface IStoreService extends IBaseService<StoreModel,StoreQueryModel> {
 
+
+    public StoreModel getStoreByGoodsUuid(Integer goodsUuid);
 }

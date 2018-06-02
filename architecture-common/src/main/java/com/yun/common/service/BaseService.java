@@ -20,8 +20,8 @@ public class BaseService<M, QM extends BaseModel> implements IBaseService<M, QM>
     }
 
     @Override
-    public void create(M cm) {
-        dao.create(cm);
+    public Integer create(M cm) {
+        return dao.create(cm);
     }
 
     @Override

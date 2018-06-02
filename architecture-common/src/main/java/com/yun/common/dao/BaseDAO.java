@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface BaseDAO<M, QM> {
 
-    void create(M cm);
+    Integer create(M cm);
 
     void update(M cm);
 
