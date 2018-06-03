@@ -48,6 +48,15 @@ Nginx学习
 
 四、学习核心模块、日志模块和事件模块的常用命令
 
+    事件模块：
+         worker_connections和worker_proceses（见主模块）允许你计算理论最大连接数：
+         最大连接数 = worker_processes * worker_connections
+         在反向代理环境下：
+         最大连接数 = worker_processes * worker_connections/4
+         由于浏览器默认打开2个连接到服务器，nginx使用来自相同地址池的fds（文件描述符）与前后端相连接
+         worker_connections默认条件下是1024个，
+         实际上是可以配置最大的跟服务器最大能打开文件数这个可以使用ulimit -n来查询 在/etc/security/limit.conf文件中
+         但这个是理论值，实际上是达不到的，比较是多核的
 
 
 五、学习Http模块的常用配置和指令
