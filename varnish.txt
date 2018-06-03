@@ -1,0 +1,26 @@
+Varnish简介
+    Varnish是一款开元的、高性能的HTTP加速器和反向代理服务器
+    最主要的功能就是：通过缓存来实现web访问加速
+Varnish特点
+    主要基于内存或者是虚拟内存进行缓存，性能好
+    支持设置精准的缓存时间
+    vcl配置管理比较灵活
+
+VCL基础
+
+    安装：http://www.varnish-cache.org下载
+第一步：因为安装varnish需要pcre，因此先设置一下路径
+    export PKG_CONFIG_PATH=/usr/local/pcre/lib/pkgconfig
+第二步:
+    .configure --prefix=/usr/local/varnish
+第三步：
+    make   ,  make install
+
+
+Varnish的基本运行
+运行前的准备
+    把配置文件default.vcl上传到etc/varnish目录里面去
+运行的基本命令示例
+    ./varnishd -f /usr/local/varnish/etc/varnish/default.vcl -s malloc,32M -T 127.0.0.1：2000 -a 0.0.0.0:1111
+关闭varnish
+    在varnish的sbin目录下 pkill varnishd
