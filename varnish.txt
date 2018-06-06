@@ -24,3 +24,88 @@ Varnish的基本运行
     ./varnishd -f /usr/local/varnish/etc/varnish/default.vcl -s malloc,32M -T 127.0.0.1：2000 -a 0.0.0.0:1111
 关闭varnish
     在varnish的sbin目录下 pkill varnishd
+
+
+vcl配置
+backend default {
+    .host = "www.suncloud.com";
+    .port = "8080";
+    .connect_timeout = 1s;
+    .first_byte_timeout = 5s;
+    .between_bytes_timeout = 2s;
+    .max_connections = 1000;
+}
+说明:为了后端服务器过载，.max_connections可以设置连接后端服务器的最大连接数
+    在backend中申明的timeout参数可以被覆盖，.connect_timeout等待后端的时间，.first_byte_timeout等待从backend传输过来的第一个字符的时间
+    .between_bytes_timeout两个字符的间隔时间
+
+director b2 random {
+    .retries = 5
+    {
+        .backend = default;//引用已经存在的backend
+        .weight = 7;
+    }
+    {
+        .backend = {  //自定义
+            .host = "f2";
+        }
+        .weight = 3;
+    }
+}
+说明：Director又分成三种，分别是：random、client、hash他们采用的同样是随机分发算法，只是种子数值不同，种子数分别采用随机数、客户端ID、或者是缓存的hash（典型如url）
+    对于client director
+        你可以设置vcl的变量client.identity来区分客户端，值可以从session cookie或其他相似的值来获取
+    对于hash director
+        默认使用url的hash值，可以通过req.hash获取到
+    round-robin director
+        轮询使用，第一次使用第一个，第二次使用第二个。。。。
+director directorname dns {
+    .list = {
+        .host_header = "www.example.com";
+        .port = "80";
+        .connection_timeout = 0.4;
+        "192.168.15.0"/24;
+        "192.168.16.128"/25;
+    }
+    .ttl = 5m;
+    .suffix = "internal.example.net";
+}
+说明：这段代码会定制384个后端，都是用80端口及0.4s的链接超时，.list    申明中设置选项必须在IPS前面，.ttl定义DNSlookups的时间
+
+director b3 fallback {
+    {.backend = ww1;}
+    {.backend = ww2;}//第一个不好用，才回到这里
+    {.backend = ww3;}//前两个不好用才会到这里
+    {.backend = ww4;}//前三个不好用才回到这里
+}
+
+
+Grace模式
+    当几个客户端请求同一个页面的时候，varnish只发送一个请求到后端服务器，然后让其他请求挂起等待返回结果，返回结果后，复制请求的结果发送给客户端
+    如果您的服务每秒有数千万的点击率，那么这个队列是庞大的，没有用户喜欢等待服务器相应。为了解决这个问题，可以提示varnish取报纸缓存的对象超过他们的ttl（time to live）（就是该过期的，先别删除），并且去提供旧的内容给正在等待的请求
+    sub vcl_fetch {
+        set beresp.grace = 30m;//使用grace模式，保存过期的缓存30分钟
+    }
+
+    sub vcl_recv {
+        set req.grace = 15s;
+    }
+
+
+健康检查
+    if(!req.backend.healthy){
+        set req.grace = 5m;
+    }else {
+        set req.grace = 15s;
+    }
+
+
+Saint模式
+    神圣模式可以让你抛弃后端服务器的一个页面，并尝试从其他服务器获取，或提供缓存中的旧内容。
+    sub vcl_fetch {
+        if(beresp.status == 500){
+            set beresp.saintmode = 10s;//10秒之内不会访问该服务器
+            return(restart);//执行的时候，如果有其他服务器，那么就会访问其他服务器，如果没有那么就从缓存中获取
+        }
+        set berest.grace = 5m;
+    }
