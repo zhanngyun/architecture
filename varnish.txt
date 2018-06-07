@@ -109,3 +109,85 @@ Saint模式
         }
         set berest.grace = 5m;
     }
+
+
+VCL常用函数
+hash_data(req.url)  增加一个散列值，默认是hash_data() 是调用request的host和url
+regsub(str,regex,sub) 用sub来替换指定的目标
+regsuball(str,regex,sub) 用sub来替换全部的发现的目标
+ban(req.url ~ ".jsp$")  禁用使用缓存
+
+
+
+varnish请求流程
+1.vcl_init() vcl加载时调用，之后加载客户请求，一般初始化VMOD模块
+   sub vcl_init {
+    return(OK)
+   }
+
+
+
+
+Actions,VCL中主要有如下请求动作
+    pass：当一个请求被pass后，这个请求通过varnish转发到后台 只能在vcl_recv 和 vcl_fetch中
+    lookup：当一个请求在vcl_recv中被lookup之后，varnish将从缓存中获取数据，如果缓存中没有那么将自动设为pass，不能再vcl——fetch中使用
+    pipe：pipe和pass相似，都要访问后端服务器，不过进入pipe模式后，此链接未关闭前，后续的所有请求都直接发到后端服务器，不经过varnish的处理
+    deliver：请求的目标被缓存，然后发送给客户端
+    hit_for_pass：表示直接从后台获取数据，会创建一个hit_for_pass对象，该对象的ttl值将会被设置成beresp.ttl的当前值。
+                    用来控制vcl_deliver如何处理当前请求，后续的请求会直接vcl_pass,可在vcl_fetch中用
+    fetch：从后端服务器获取请求目标，控制权交给vcl_fetch
+    hash：进入hash模式
+    restart： 重启本次事务，重新返回给vcl_recv，如果重启次数超过max_restarts报错
+    ok：表示正常
+    error：表示错误
+
+
+在VCL中的三个重要的数据结构
+req: 请求目标，当varnish接收到一个请求，这时req object就被创建了，在vcl的大部分工作中，都是在req object上展开的
+beresp：后端服务器返回的目标，它包含返回头信息，在vcl_fetch的大部分工作中，都是在beresp object上展开的
+obj：被cache的目标，只读的目标被保存于内存中，obj.ttl可以被修改，其他的都只是只读
+
+vcl的变量和常见的应用片段
+now：当前时间
+.host 一个backend的主机名或者ip地址
+.port 一个backend的服务名字或者端口号
+
+client.ip 客户端ip
+client.identity 客户的id，用在负载均衡的时候 client director
+
+server.hostname: server的主机名
+server.identity: server的身份，使用-i 参数设置，如果 -i参数没有传递        给varnish
+                server.identity将给varnishd实例设置名字
+server.ip：客户端连接上socket,接收到的IP地址
+server.port：客户端连接上socket，接收到的端口号
+req.request 请求类型，例如 “GET”,“HEAD”
+unset req.http.cookie 去掉cookie
+req.proto 客户端的协议
+req.url 请求地址
+req.backend 使用按个后端服务器
+req.backend.healthy: 后端服务器是否健康
+req.http.header 对应的http头
+req.grace 设置对象被保持的时间
+req.can_gzip 设置能使用gzip
+req.esi 设置是否支持esi
+req.esi_level : 设置esi的level
+req.xid 请求的唯一id
+req.restarts 设置最大的重启次数
+req.hash_ignore_busy 当lookup缓存的时候，忽略busy的对象
+req.hash_always_miss:强制本请求的缓存失效
+
+
+下面这些变量在访问backend的时候使用
+bereq.request: 请求的类型
+bereq.url 请求的url
+bereq.proto请求的协议
+bereq.http.header 请求的http header
+bereq.connect_timeout 等待后端服务器响应时间
+bereq.first_byte_timeout 等待接收第一个字节的等待时间，pipe模式无效
+bereq.between_bytes_timeout 两次从后端服务器接收到字节的间隔，pipe模式中无效
+
+
+
+在backend取回
+beresp.do_stream：
+
